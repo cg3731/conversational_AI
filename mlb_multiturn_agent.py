@@ -623,51 +623,51 @@ SYSTEM_INSTRUCTIONS = (
 
 
 def build_agent() -> AgentExecutor:
-	# Model
-	model_name = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-	llm = ChatOpenAI(
-		model=model_name,
-		temperature=0.2,
-	)
+    # Model
+    model_name = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+    llm = ChatOpenAI(
+        model=model_name,
+        temperature=0.2,
+    )
 
-	# Tools
-	tools = [
-		resolve_team,
-		resolve_league,
-		find_player_id,
-		get_player_stats,
-		get_team_leaders,
-		get_league_leaders,
-	]
+    # Tools
+    tools = [
+        resolve_team,
+        resolve_league,
+        find_player_id,
+        get_player_stats,
+        get_team_leaders,
+        get_league_leaders,
+    ]
 
-	# Prompt
-	prompt = ChatPromptTemplate.from_messages(
-		[
-			("system", SYSTEM_INSTRUCTIONS),
-			MessagesPlaceholder(variable_name="chat_history"),
-			("user", "{input}"),
-			MessagesPlaceholder(variable_name="agent_scratchpad"),
-		]
-	)
+    # Prompt
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", SYSTEM_INSTRUCTIONS),
+            MessagesPlaceholder(variable_name="chat_history"),
+            ("user", "{input}"),
+            MessagesPlaceholder(variable_name="agent_scratchpad"),
+        ]
+    )
 
-	# Agent
-	agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
+    # Agent
+    agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
 
-	# Memory
-	memory = ConversationBufferWindowMemory(
-		memory_key="chat_history",
-		k=5,
-		return_messages=True,
-	)
+    # Memory
+    memory = ConversationBufferWindowMemory(
+        memory_key="chat_history",
+        k=5,
+        return_messages=True,
+    )
 
-	# Executor
-	executor = AgentExecutor(
-		agent=agent,
-		tools=tools,
-		memory=memory,
-		verbose=True,
-	)
-	return executor
+    # Executor
+    executor = AgentExecutor(
+        agent=agent,
+        tools=tools,
+        memory=memory,
+        verbose=True,
+    )
+    return executor
 
 
 def main() -> None:
