@@ -280,9 +280,9 @@ def find_player_id(player_name: str) -> Dict:
 			if p.get("fullName", "").strip().lower() == lc_name:
 				fn = p.get("fullName", "Unknown")
 				pos = (p.get("primaryPosition") or {}).get("abbreviation", "")
-			team_info = (p.get("currentTeam") or {})
-			team = team_info.get("name", "") or (p.get("teamName") or "")
-			team_id = team_info.get("id")
+				team_info = (p.get("currentTeam") or {})
+				team = team_info.get("name", "") or (p.get("teamName") or "")
+				team_id = team_info.get("id")
 				pid = str(p.get("id", ""))
 				is_pitcher = (pos == "P")
 				is_two_way = fn.lower() == "shohei ohtani"
@@ -292,7 +292,7 @@ def find_player_id(player_name: str) -> Dict:
 					"fullName": fn,
 					"position": pos,
 					"team": team,
-				"teamId": str(team_id) if team_id is not None else None,
+					"teamId": str(team_id) if team_id is not None else None,
 					"isPitcher": is_pitcher,
 					"isTwoWay": is_two_way,
 				}
